@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Image from "next/image";
 
 const CALENDLY_URL =
   "https://calendly.com/corenchristmann/appel-decouverte-forgn-30-min";
@@ -32,9 +33,14 @@ export default function Nav() {
     >
       <div className="mx-auto max-w-6xl flex items-center justify-between px-6 py-4">
         {/* Logo */}
-        <a href="#" className="font-[var(--font-outfit)] text-[22px] font-bold tracking-tight">
-          <span className="text-violet-light">F</span>
-          <span className="text-text-main">orgn</span>
+        <a href="#" className="block shrink-0">
+          <Image
+            src="/logo.svg"
+            alt="Forgn"
+            width={120}
+            height={44}
+            priority
+          />
         </a>
 
         {/* Desktop links */}

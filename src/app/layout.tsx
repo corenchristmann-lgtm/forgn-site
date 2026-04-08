@@ -17,6 +17,7 @@ const dmSans = DM_Sans({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://forgn.dev"),
   title: "Forgn — Automatisation sur mesure pour agences marketing",
   description:
     "Forgn conçoit des systèmes d'automatisation sur mesure pour les agences marketing. Vos tâches répétitives deviennent des machines fiables — en 48h.",

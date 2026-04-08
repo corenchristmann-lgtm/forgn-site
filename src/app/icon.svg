@@ -1,4 +1,21 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <rect width="32" height="32" rx="6" fill="#08070b"/>
-  <text x="8" y="24" font-family="system-ui, sans-serif" font-weight="700" font-size="24" fill="#8b5cf6">F</text>
+<svg width="512" height="512" viewBox="0 0 182 182" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect x="74" y="158" width="44" height="129" rx="22" transform="rotate(180 74 158)" fill="url(#paint0_linear_14_2)"/>
+<rect x="74" y="158" width="44" height="129" rx="22" transform="rotate(180 74 158)" stroke="rgba(255,255,255,0.1)"/>
+<rect x="159" y="29" width="44" height="129" rx="22" transform="rotate(90 159 29)" fill="url(#paint1_linear_14_2)"/>
+<path d="M108 82C121.255 82 132 92.2975 132 105C132 117.703 121.255 128 108 128C94.7452 128 84 117.703 84 105C84 92.2975 94.7452 82 108 82Z" fill="url(#paint2_linear_14_2)"/>
+<path d="M108 82C121.255 82 132 92.2975 132 105C132 117.703 121.255 128 108 128C94.7452 128 84 117.703 84 105C84 92.2975 94.7452 82 108 82Z" stroke="#4C009D"/>
+<defs>
+<linearGradient id="paint0_linear_14_2" x1="96" y1="158" x2="96" y2="287" gradientUnits="userSpaceOnUse">
+<stop stop-color="#7c3aed"/>
+<stop offset="1" stop-color="#33C3CE"/>
+</linearGradient>
+<linearGradient id="paint1_linear_14_2" x1="181" y1="158" x2="181" y2="29" gradientUnits="userSpaceOnUse">
+<stop stop-color="#7c3aed"/>
+<stop offset="1" stop-color="#33C3CE"/>
+</linearGradient>
+<linearGradient id="paint2_linear_14_2" x1="91" y1="91" x2="126" y2="120" gradientUnits="userSpaceOnUse">
+<stop stop-color="#7c3aed"/>
+<stop offset="0.950021" stop-color="#33C3CE"/>
+</linearGradient>
+</defs>
 </svg>
