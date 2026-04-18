@@ -1,118 +1,178 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import Image from "next/image";
+import { useEffect, useRef, useState } from "react";
+import { AVAILABILITY_LABEL, CALENDLY_URL } from "@/lib/constants";
 
-const CALENDLY_URL =
-  "https://calendly.com/corenchristmann/appel-decouverte-forgn-30-min";
+const MOBILE_MENU_ID = "mobile-menu";
 
-const NAV_LINKS = [
-  { label: "Problème", href: "#probleme" },
+const LINKS = [
+  { label: "Réalisations", href: "#realisations" },
   { label: "Méthode", href: "#methode" },
-  { label: "Cas d'usage", href: "#usecases" },
-  { label: "Tarifs", href: "#tarifs" },
+  { label: "Domaines", href: "#domaines" },
 ];
 
 export default function Nav() {
   const [scrolled, setScrolled] = useState(false);
-  const [mobileOpen, setMobileOpen] = useState(false);
+  const [open, setOpen] = useState(false);
+  const toggleRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20);
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  return (
-    <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled
-          ? "bg-[#08070b]/80 backdrop-blur-xl border-b border-[rgba(139,92,246,0.1)]"
-          : "bg-transparent"
-      }`}
-    >
-      <div className="mx-auto max-w-6xl flex items-center justify-between px-6 py-4">
-        {/* Logo */}
-        <a href="#" className="block shrink-0">
-          <Image
-            src="/logo.svg"
-            alt="Forgn"
-            width={120}
-            height={44}
-            priority
-          />
-        </a>
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setOpen(false);
+        toggleRef.current?.focus();
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [open]);
 
-        {/* Desktop links */}
-        <div className="hidden md:flex items-center gap-8">
-          {NAV_LINKS.map((link) => (
-            <a
-              key={link.href}
-              href={link.href}
-              className="text-sm text-text-muted hover:text-text-main transition-colors"
+  return (
+    <header className="fixed top-0 left-0 right-0 z-50">
+      <div className="flex justify-center px-3 pt-3 sm:pt-4">
+        <nav
+          aria-label="Navigation principale"
+          className={`flex items-center gap-1 sm:gap-4 h-14 pl-3 pr-2 rounded-full transition-all duration-300 ${
+            scrolled
+              ? "glass shadow-[0_1px_3px_rgba(33,20,6,0.05),0_12px_32px_-8px_rgba(33,20,6,0.12)]"
+              : "bg-[color:var(--color-background)]/40 backdrop-blur-md border border-transparent"
+          }`}
+        >
+          {/* Wordmark */}
+          <a
+            href="#"
+            aria-label="Forgn — retour à l'accueil"
+            className="flex items-center gap-2.5 pl-1 pr-2 group"
+          >
+            <span
+              aria-hidden
+              className="relative inline-flex h-7 w-7 items-center justify-center rounded-lg bg-[color:var(--color-foreground)] shadow-[0_1px_2px_rgba(33,20,6,0.12),inset_0_1px_0_rgba(255,250,240,0.15)]"
             >
-              {link.label}
-            </a>
-          ))}
+              <span className="font-display text-[color:var(--color-background)] text-[13px] font-semibold leading-none -mt-px">
+                F
+              </span>
+              <span className="absolute -top-0.5 -right-0.5 h-2 w-2 rounded-full bg-[color:var(--color-accent)] shadow-[0_0_8px_var(--color-accent-glow)]" />
+            </span>
+            <span className="text-[15.5px] font-medium tracking-tight">
+              Forgn
+            </span>
+          </a>
+
+          {/* Divider */}
+          <span aria-hidden className="hidden md:block h-5 w-px bg-[color:var(--color-border)]" />
+
+          {/* Links */}
+          <ul className="hidden md:flex items-center gap-0.5">
+            {LINKS.map((l) => (
+              <li key={l.href}>
+                <a
+                  href={l.href}
+                  className="px-3.5 h-9 inline-flex items-center text-[13.5px] text-[color:var(--color-muted-foreground)] hover:text-[color:var(--color-foreground)] rounded-full hover:bg-[color:var(--color-subtle)] transition-all duration-200"
+                >
+                  {l.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+
+          {/* Availability status */}
+          <div className="hidden lg:flex items-center gap-2 pl-3 pr-2 h-9 rounded-full bg-[color:var(--color-muted)]/60 border border-[color:var(--color-border)]">
+            <span className="live-dot" />
+            <span className="font-mono text-[10.5px] uppercase tracking-[0.1em] text-[color:var(--color-foreground)]">
+              {AVAILABILITY_LABEL}
+            </span>
+          </div>
+
+          {/* CTA */}
           <a
             href={CALENDLY_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="rounded-lg bg-violet px-5 py-2.5 text-sm font-medium text-white hover:bg-violet-light transition-colors"
+            className="group hidden md:inline-flex items-center gap-1.5 h-10 pl-4 pr-3.5 rounded-full bg-[color:var(--color-foreground)] text-[color:var(--color-background)] text-[13.5px] font-medium hover:opacity-95 transition-opacity shadow-[0_2px_6px_rgba(33,20,6,0.2),inset_0_1px_0_rgba(255,250,240,0.1)] active:scale-[0.97]"
+            style={{ transition: "background 200ms, transform 140ms cubic-bezier(0.23,1,0.32,1), box-shadow 220ms" }}
           >
-            Réserver un appel
+            Vérifier les disponibilités
+            <span
+              aria-hidden
+              className="arrow-nudge text-[color:var(--color-accent-soft)]"
+            >
+              →
+            </span>
           </a>
-        </div>
 
-        {/* Mobile hamburger */}
-        <button
-          onClick={() => setMobileOpen(!mobileOpen)}
-          className="md:hidden flex flex-col gap-1.5 p-2"
-          aria-label="Menu"
-        >
-          <span
-            className={`block h-0.5 w-6 bg-text-main transition-transform ${
-              mobileOpen ? "rotate-45 translate-y-2" : ""
-            }`}
-          />
-          <span
-            className={`block h-0.5 w-6 bg-text-main transition-opacity ${
-              mobileOpen ? "opacity-0" : ""
-            }`}
-          />
-          <span
-            className={`block h-0.5 w-6 bg-text-main transition-transform ${
-              mobileOpen ? "-rotate-45 -translate-y-2" : ""
-            }`}
-          />
-        </button>
+          {/* Mobile toggle */}
+          <button
+            ref={toggleRef}
+            type="button"
+            onClick={() => setOpen(!open)}
+            className="md:hidden inline-flex items-center justify-center w-10 h-10 rounded-full hover:bg-[color:var(--color-subtle)] transition-colors"
+            aria-label={open ? "Fermer le menu" : "Ouvrir le menu"}
+            aria-expanded={open}
+            aria-controls={MOBILE_MENU_ID}
+          >
+            <span className="flex flex-col gap-1.5">
+              <span
+                className={`block h-px w-5 bg-[color:var(--color-foreground)] transition-transform duration-200 ease-out ${
+                  open ? "translate-y-[3.5px] rotate-45" : ""
+                }`}
+              />
+              <span
+                className={`block h-px w-5 bg-[color:var(--color-foreground)] transition-transform duration-200 ease-out ${
+                  open ? "-translate-y-[3.5px] -rotate-45" : ""
+                }`}
+              />
+            </span>
+          </button>
+        </nav>
       </div>
 
       {/* Mobile menu */}
-      {mobileOpen && (
-        <div className="md:hidden bg-[#0f0e14]/95 backdrop-blur-xl border-t border-[rgba(139,92,246,0.1)] px-6 pb-6 pt-4">
-          <div className="flex flex-col gap-4">
-            {NAV_LINKS.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                onClick={() => setMobileOpen(false)}
-                className="text-text-muted hover:text-text-main transition-colors"
-              >
-                {link.label}
-              </a>
+      {open && (
+        <div
+          id={MOBILE_MENU_ID}
+          role="dialog"
+          aria-modal="false"
+          aria-label="Menu principal"
+          className="md:hidden mx-3 mt-2 rounded-3xl glass p-3 shadow-[0_20px_48px_-12px_rgba(33,20,6,0.2)]"
+        >
+          <ul className="flex flex-col" role="list">
+            {LINKS.map((l) => (
+              <li key={l.href}>
+                <a
+                  href={l.href}
+                  onClick={() => setOpen(false)}
+                  className="block px-4 py-3.5 text-[16px] font-medium text-[color:var(--color-foreground)] hover:bg-[color:var(--color-subtle)] rounded-xl transition-colors"
+                >
+                  {l.label}
+                </a>
+              </li>
             ))}
-            <a
-              href={CALENDLY_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="rounded-lg bg-violet px-5 py-3 text-sm font-medium text-white text-center hover:bg-violet-light transition-colors"
-            >
-              Réserver un appel
-            </a>
+          </ul>
+          <div className="mt-2 flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[color:var(--color-muted)]">
+            <span className="live-dot" />
+            <span className="font-mono text-[11px] uppercase tracking-[0.1em] text-[color:var(--color-foreground)]">
+              {AVAILABILITY_LABEL}
+            </span>
           </div>
+          <a
+            href={CALENDLY_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-2 flex items-center justify-center gap-1.5 h-12 rounded-full bg-[color:var(--color-foreground)] text-[color:var(--color-background)] text-[14.5px] font-medium"
+          >
+            Vérifier les disponibilités
+            <span aria-hidden className="text-[color:var(--color-accent-soft)]">→</span>
+          </a>
         </div>
       )}
-    </nav>
+    </header>
   );
 }
