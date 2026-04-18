@@ -173,6 +173,9 @@ body {
   text-transform: uppercase;
   color: var(--color-muted-foreground);
 }
+.eyebrow.justify-center {
+  justify-content: center;
+}
 .eyebrow::before {
   content: "";
   display: inline-block;
@@ -596,6 +599,94 @@ section {
   outline: 2px solid var(--color-accent);
   outline-offset: 2px;
   border-radius: 4px;
+}
+
+/* Legal pages — prose editorial */
+.prose-legal {
+  font-size: 15.5px;
+  line-height: 1.7;
+  color: var(--color-foreground);
+}
+.prose-legal section {
+  margin-bottom: 2.75rem;
+}
+.prose-legal h2 {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  font-weight: 430;
+  letter-spacing: -0.02em;
+  color: var(--color-foreground);
+  margin-top: 2.25rem;
+  margin-bottom: 0.75rem;
+}
+.prose-legal h3 {
+  font-family: var(--font-sans);
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--color-foreground);
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+.prose-legal p {
+  margin-bottom: 1rem;
+  max-width: 68ch;
+}
+.prose-legal p + p {
+  margin-top: 0.5rem;
+}
+.prose-legal ul {
+  list-style: disc;
+  padding-left: 1.3rem;
+  margin-bottom: 1rem;
+}
+.prose-legal ul li {
+  margin-bottom: 0.35rem;
+}
+.prose-legal a {
+  color: var(--color-accent-deep);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+.prose-legal a:hover {
+  color: var(--color-accent);
+}
+.prose-legal code {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  padding: 0.1em 0.35em;
+  border-radius: 4px;
+  background: var(--color-muted);
+  border: 1px solid var(--color-border);
+}
+.prose-legal table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0 1.5rem;
+  font-size: 14px;
+}
+.prose-legal thead {
+  background: var(--color-muted);
+}
+.prose-legal th,
+.prose-legal td {
+  padding: 0.7rem 0.9rem;
+  border: 1px solid var(--color-border);
+  text-align: left;
+  vertical-align: top;
+}
+.prose-legal th {
+  font-weight: 500;
+  font-size: 13px;
+  letter-spacing: 0.02em;
+  color: var(--color-foreground);
+}
+.prose-legal abbr {
+  text-decoration-style: dotted;
+  cursor: help;
+}
+.dark .prose-legal a {
+  color: var(--color-accent-soft);
 }
 
 /* Reduced motion */

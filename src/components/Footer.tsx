@@ -109,8 +109,9 @@ export default function Footer() {
             © 2026 Forgn — Tous droits réservés
           </div>
           <div className="flex items-center gap-6 text-[12.5px] text-[color:var(--color-muted-foreground)]">
-            <a href="#" className="link-quiet">Mentions légales</a>
-            <a href="#" className="link-quiet">Confidentialité</a>
+            <a href="/mentions-legales" className="link-quiet">Mentions légales</a>
+            <a href="/confidentialite" className="link-quiet">Confidentialité</a>
+            <a href="/accessibility-statement" className="link-quiet">Accessibilité</a>
             <span className="hidden sm:inline">Forgé à Liège</span>
           </div>
         </div>
