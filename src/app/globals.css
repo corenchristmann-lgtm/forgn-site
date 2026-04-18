@@ -62,6 +62,44 @@
   --shadow-inset: inset 0 1px 0 rgba(255, 250, 240, 0.6);
 }
 
+/* Dark mode palette — same ember accent, flipped paper */
+.dark {
+  --color-background: #0f0d0a;
+  --color-background-deep: #070604;
+  --color-foreground: #f5f1ea;
+  --color-ink: #ffffff;
+  --color-muted: #1a1612;
+  --color-muted-foreground: #b5ad9e;
+  --color-subtle: #24201a;
+  --color-border: #2d281f;
+  --color-border-strong: #3d3628;
+
+  --color-accent: #e67441;
+  --color-accent-soft: #f2a07a;
+  --color-accent-deep: #b85a2e;
+  --color-accent-glow: color-mix(in oklab, #e67441 45%, transparent);
+
+  --color-live: #6fa64d;
+  --color-live-glow: color-mix(in oklab, #6fa64d 50%, transparent);
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-md:
+    0 2px 4px rgba(0, 0, 0, 0.35),
+    0 8px 20px -6px rgba(0, 0, 0, 0.45);
+  --shadow-lg:
+    0 4px 10px -2px rgba(0, 0, 0, 0.45),
+    0 24px 40px -12px rgba(0, 0, 0, 0.55);
+  --shadow-xl:
+    0 10px 20px -6px rgba(0, 0, 0, 0.55),
+    0 40px 80px -20px rgba(0, 0, 0, 0.65);
+  --shadow-ember:
+    0 14px 44px -10px color-mix(in oklab, #e67441 45%, transparent),
+    0 4px 12px -4px color-mix(in oklab, #e67441 30%, transparent);
+  --shadow-inset: inset 0 1px 0 rgba(255, 250, 240, 0.08);
+
+  color-scheme: dark;
+}
+
 /* ================================================================= */
 /*  Base                                                                */
 /* ================================================================= */

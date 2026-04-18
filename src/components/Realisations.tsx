@@ -1,6 +1,7 @@
 "use client";
 
-import { motion } from "motion/react";
+import { useRef } from "react";
+import { motion, useScroll, useTransform } from "motion/react";
 import { CONTACT_EMAIL } from "@/lib/constants";
 
 interface Metric {
@@ -76,8 +77,23 @@ const supporting: CaseStudy[] = [
 ];
 
 export default function Realisations() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start end", "end start"],
+  });
+
+  const deviceY = useTransform(scrollYProgress, [0, 1], [40, -40]);
+  const orbY = useTransform(scrollYProgress, [0, 1], [-60, 60]);
+  const orbScale = useTransform(scrollYProgress, [0, 0.5, 1], [0.9, 1.1, 0.9]);
+  const textY = useTransform(scrollYProgress, [0, 1], [20, -20]);
+
   return (
-    <section id="realisations" className="relative py-28 sm:py-36">
+    <section
+      id="realisations"
+      ref={sectionRef}
+      className="relative py-28 sm:py-36"
+    >
       <div className="mx-auto max-w-[1240px]">
         {/* Header — split */}
         <motion.div
@@ -117,8 +133,8 @@ export default function Realisations() {
           <div className="absolute inset-0 bg-grain pointer-events-none opacity-50" aria-hidden />
 
           <div className="relative grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14">
-            {/* Left — text */}
-            <div className="lg:col-span-7">
+            {/* Left — text (parallax) */}
+            <motion.div style={{ y: textY }} className="lg:col-span-7">
               <div className="flex items-center gap-3 mb-8">
                 <span className="chip chip-ember">{featured.tag}</span>
                 <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-[color:var(--color-background)]/50 tabular">
@@ -145,10 +161,10 @@ export default function Realisations() {
                 <span>Case study détaillé sur demande</span>
                 <span aria-hidden className="arrow-nudge">→</span>
               </a>
-            </div>
+            </motion.div>
 
-            {/* Right — metrics panel, mock screen illusion */}
-            <div className="lg:col-span-5">
+            {/* Right — metrics panel, mock screen illusion (parallax) */}
+            <motion.div style={{ y: deviceY }} className="lg:col-span-5">
               <div className="relative">
                 {/* Faux device frame */}
                 <div className="relative rounded-2xl bg-[color:var(--color-background)]/5 border border-[color:var(--color-background)]/10 p-6 backdrop-blur">
@@ -189,13 +205,14 @@ export default function Realisations() {
                   </div>
                 </div>
 
-                {/* Accent glow orb */}
-                <div
+                {/* Accent glow orb (parallax, scale) */}
+                <motion.div
                   aria-hidden
+                  style={{ y: orbY, scale: orbScale }}
                   className="absolute -top-10 -right-10 h-40 w-40 rounded-full bg-[color:var(--color-accent)] opacity-40 blur-3xl pointer-events-none"
                 />
               </div>
-            </div>
+            </motion.div>
           </div>
         </motion.article>
 
@@ -212,9 +229,12 @@ export default function Realisations() {
                 delay: 0.1 + i * 0.06,
                 ease: [0.23, 1, 0.32, 1],
               }}
-              className="group card p-7 flex flex-col min-h-[300px] hover:border-[color:var(--color-foreground)]/40"
+              className="group relative overflow-hidden card p-7 flex flex-col min-h-[320px] hover:border-[color:var(--color-foreground)]/40"
             >
-              <div className="flex items-center justify-between mb-7">
+              {/* Decorative case visual */}
+              <CaseVisual tag={c.tag} />
+
+              <div className="relative flex items-center justify-between mb-7">
                 <span className="chip">
                   <span className="h-1.5 w-1.5 rounded-full bg-[color:var(--color-accent)]" />
                   {c.tag}
@@ -224,14 +244,14 @@ export default function Realisations() {
                 </span>
               </div>
 
-              <h3 className="display text-[22px] text-[color:var(--color-foreground)] mb-3 leading-[1.1]">
+              <h3 className="relative display text-[22px] text-[color:var(--color-foreground)] mb-3 leading-[1.1]">
                 {c.title}
               </h3>
-              <p className="text-[14.5px] leading-relaxed text-[color:var(--color-muted-foreground)]">
+              <p className="relative text-[14.5px] leading-relaxed text-[color:var(--color-muted-foreground)]">
                 {c.summary}
               </p>
 
-              <div className="mt-auto pt-6 flex items-baseline gap-5 border-t border-[color:var(--color-border)]">
+              <div className="relative mt-auto pt-6 flex items-baseline gap-5 border-t border-[color:var(--color-border)]">
                 {c.metrics.map((m) => (
                   <div key={m.label}>
                     <div className="font-display text-[22px] tabular text-[color:var(--color-foreground)]">
@@ -248,5 +268,198 @@ export default function Realisations() {
         </div>
       </div>
     </section>
+  );
+}
+
+function CaseVisual({ tag }: { tag: string }) {
+  const ACCENT = "var(--color-accent)";
+  const BORDER = "var(--color-border-strong)";
+  const FG = "var(--color-foreground)";
+
+  return (
+    <div
+      aria-hidden
+      className="absolute top-0 right-0 w-[65%] h-[55%] pointer-events-none overflow-hidden opacity-[0.55] group-hover:opacity-90 transition-opacity duration-500"
+    >
+      <div className="absolute inset-0 bg-gradient-to-bl from-[color:var(--color-muted)]/80 to-transparent" />
+      <svg
+        viewBox="0 0 260 180"
+        className="absolute top-4 right-4 w-full max-w-[220px] h-auto"
+        fill="none"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        {tag === "Companion" && <CompanionGlyph accent={ACCENT} fg={FG} border={BORDER} />}
+        {tag === "Gamification" && <GamificationGlyph accent={ACCENT} fg={FG} border={BORDER} />}
+        {tag === "Matching" && <MatchingGlyph accent={ACCENT} fg={FG} border={BORDER} />}
+      </svg>
+    </div>
+  );
+}
+
+interface GlyphProps {
+  accent: string;
+  fg: string;
+  border: string;
+}
+
+function CompanionGlyph({ accent, fg, border }: GlyphProps) {
+  return (
+    <g>
+      {/* Phone silhouette */}
+      <rect
+        x="90"
+        y="20"
+        width="110"
+        height="150"
+        rx="14"
+        stroke={border}
+        strokeWidth="1.5"
+        fill="var(--color-background)"
+      />
+      <rect x="108" y="32" width="74" height="6" rx="2" fill={fg} opacity="0.9" />
+      <rect x="108" y="46" width="54" height="4" rx="1.5" fill={fg} opacity="0.35" />
+
+      {/* Checkable items */}
+      {[0, 1, 2, 3].map((i) => (
+        <g key={i}>
+          <rect
+            x="108"
+            y={68 + i * 20}
+            width="8"
+            height="8"
+            rx="2"
+            stroke={i < 2 ? accent : border}
+            fill={i < 2 ? accent : "transparent"}
+            strokeWidth="1.5"
+          />
+          <rect
+            x="124"
+            y={70 + i * 20}
+            width={i === 3 ? 44 : 60}
+            height="4"
+            rx="1.5"
+            fill={fg}
+            opacity={i < 2 ? 0.85 : 0.3}
+          />
+        </g>
+      ))}
+    </g>
+  );
+}
+
+function GamificationGlyph({ accent, fg, border }: GlyphProps) {
+  const values = [85, 62, 48, 30, 22];
+  return (
+    <g>
+      {/* Leaderboard frame */}
+      <rect
+        x="30"
+        y="30"
+        width="200"
+        height="130"
+        rx="10"
+        stroke={border}
+        strokeWidth="1.5"
+        fill="var(--color-background)"
+      />
+      <rect x="46" y="44" width="56" height="5" rx="1.5" fill={fg} opacity="0.85" />
+      <circle cx="210" cy="47" r="4" fill={accent} />
+
+      {/* Bars */}
+      {values.map((v, i) => (
+        <g key={i}>
+          <text
+            x="46"
+            y={76 + i * 16}
+            fontSize="7"
+            fill={fg}
+            opacity="0.6"
+            fontFamily="ui-monospace, monospace"
+          >
+            {String(i + 1).padStart(2, "0")}
+          </text>
+          <rect
+            x="62"
+            y={70 + i * 16}
+            width="130"
+            height="6"
+            rx="3"
+            fill={border}
+            opacity="0.4"
+          />
+          <rect
+            x="62"
+            y={70 + i * 16}
+            width={v * 1.3}
+            height="6"
+            rx="3"
+            fill={i === 0 ? accent : fg}
+            opacity={i === 0 ? 1 : 0.55 - i * 0.08}
+          />
+          <text
+            x="198"
+            y={76 + i * 16}
+            fontSize="7"
+            fill={fg}
+            opacity="0.7"
+            fontFamily="ui-monospace, monospace"
+          >
+            {v}
+          </text>
+        </g>
+      ))}
+    </g>
+  );
+}
+
+function MatchingGlyph({ accent, fg, border }: GlyphProps) {
+  const left = [40, 80, 120];
+  const right = [60, 100, 140];
+  return (
+    <g>
+      {/* Connecting lines */}
+      {left.map((ly, i) => {
+        const ry = right[(i + 1) % right.length];
+        return (
+          <path
+            key={`line-${i}`}
+            d={`M 70 ${ly + 20} Q 130 ${(ly + ry) / 2 + 20} 190 ${ry + 20}`}
+            stroke={i === 0 ? accent : border}
+            strokeWidth={i === 0 ? 2 : 1.3}
+            strokeDasharray={i === 0 ? "0" : "4 4"}
+          />
+        );
+      })}
+      {/* Left nodes */}
+      {left.map((y, i) => (
+        <g key={`l-${i}`}>
+          <circle
+            cx="70"
+            cy={y + 20}
+            r="9"
+            fill={i === 0 ? accent : "var(--color-background)"}
+            stroke={i === 0 ? accent : border}
+            strokeWidth="1.5"
+          />
+        </g>
+      ))}
+      {/* Right nodes */}
+      {right.map((y, i) => (
+        <g key={`r-${i}`}>
+          <circle
+            cx="190"
+            cy={y + 20}
+            r="9"
+            fill={i === 1 ? accent : "var(--color-background)"}
+            stroke={i === 1 ? accent : border}
+            strokeWidth="1.5"
+          />
+        </g>
+      ))}
+      {/* Labels */}
+      <rect x="84" y="58" width="40" height="3" rx="1" fill={fg} opacity="0.35" />
+      <rect x="132" y="78" width="40" height="3" rx="1" fill={fg} opacity="0.35" />
+    </g>
   );
 }

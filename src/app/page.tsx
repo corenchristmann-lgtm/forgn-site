@@ -5,8 +5,10 @@ import Realisations from "@/components/Realisations";
 import Method from "@/components/Method";
 import Domaines from "@/components/Domaines";
 import PricingBridge from "@/components/PricingBridge";
+import Testimonials from "@/components/Testimonials";
 import FinalCTA from "@/components/FinalCTA";
 import Footer from "@/components/Footer";
+import StickyMobileCTA from "@/components/StickyMobileCTA";
 
 export default function Home() {
   return (
@@ -16,12 +18,14 @@ export default function Home() {
         <Hero />
         <Realisations />
         <ProofBand />
+        <Testimonials />
         <Domaines />
         <PricingBridge />
         <Method />
         <FinalCTA />
       </main>
       <Footer />
+      <StickyMobileCTA />
     </>
   );
 }

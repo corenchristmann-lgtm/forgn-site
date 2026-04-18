@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { AVAILABILITY_LABEL, CALENDLY_URL } from "@/lib/constants";
+import ThemeToggle from "./ThemeToggle";
 
 const MOBILE_MENU_ID = "mobile-menu";
 
@@ -14,6 +15,7 @@ const LINKS = [
 export default function Nav() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const [activeId, setActiveId] = useState<string | null>(null);
   const toggleRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
@@ -21,6 +23,32 @@ export default function Nav() {
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  useEffect(() => {
+    const ids = LINKS.map((l) => l.href.replace("#", ""));
+    const sections = ids
+      .map((id) => document.getElementById(id))
+      .filter((el): el is HTMLElement => el !== null);
+
+    if (sections.length === 0) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort(
+            (a, b) => b.intersectionRatio - a.intersectionRatio
+          )[0];
+        if (visible) {
+          setActiveId(visible.target.id);
+        }
+      },
+      { rootMargin: "-40% 0px -55% 0px", threshold: [0, 0.25, 0.5, 0.75, 1] }
+    );
+
+    for (const section of sections) observer.observe(section);
+    return () => observer.disconnect();
   }, []);
 
   useEffect(() => {
@@ -70,17 +98,25 @@ export default function Nav() {
           <span aria-hidden className="hidden md:block h-5 w-px bg-[color:var(--color-border)]" />
 
           {/* Links */}
-          <ul className="hidden md:flex items-center gap-0.5">
-            {LINKS.map((l) => (
-              <li key={l.href}>
-                <a
-                  href={l.href}
-                  className="px-3.5 h-9 inline-flex items-center text-[13.5px] text-[color:var(--color-muted-foreground)] hover:text-[color:var(--color-foreground)] rounded-full hover:bg-[color:var(--color-subtle)] transition-all duration-200"
-                >
-                  {l.label}
-                </a>
-              </li>
-            ))}
+          <ul className="hidden md:flex items-center gap-0.5" role="list">
+            {LINKS.map((l) => {
+              const isActive = activeId === l.href.replace("#", "");
+              return (
+                <li key={l.href}>
+                  <a
+                    href={l.href}
+                    aria-current={isActive ? "location" : undefined}
+                    className={`px-3.5 h-9 inline-flex items-center text-[13.5px] rounded-full transition-all duration-200 ${
+                      isActive
+                        ? "text-[color:var(--color-foreground)] bg-[color:var(--color-subtle)]"
+                        : "text-[color:var(--color-muted-foreground)] hover:text-[color:var(--color-foreground)] hover:bg-[color:var(--color-subtle)]"
+                    }`}
+                  >
+                    {l.label}
+                  </a>
+                </li>
+              );
+            })}
           </ul>
 
           {/* Availability status */}
@@ -89,6 +125,11 @@ export default function Nav() {
             <span className="font-mono text-[10.5px] uppercase tracking-[0.1em] text-[color:var(--color-foreground)]">
               {AVAILABILITY_LABEL}
             </span>
+          </div>
+
+          {/* Theme toggle — desktop */}
+          <div className="hidden md:inline-flex">
+            <ThemeToggle />
           </div>
 
           {/* CTA */}

@@ -2,6 +2,7 @@
 
 import { motion } from "motion/react";
 import { CALENDLY_URL } from "@/lib/constants";
+import HeroLiveMockup from "./HeroLiveMockup";
 
 export default function Hero() {
   return (
@@ -68,14 +69,14 @@ export default function Hero() {
 
         </div>
 
-        {/* ICP + Value proposition row */}
+        {/* ICP + Value proposition + live mockup row */}
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.35, ease: [0.23, 1, 0.32, 1] }}
-          className="mt-14 grid grid-cols-1 lg:grid-cols-12 gap-10 items-start"
+          className="mt-14 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start"
         >
-          <div className="lg:col-span-7 xl:col-span-6">
+          <div className="lg:col-span-7">
             <p className="text-[19px] sm:text-[20px] leading-[1.55] text-[color:var(--color-foreground)]/85 max-w-[54ch]">
               Forgn est l&apos;agence des{" "}
               <span className="text-[color:var(--color-foreground)] font-medium">
@@ -118,31 +119,35 @@ export default function Hero() {
             </div>
           </div>
 
-          <div className="lg:col-span-5 xl:col-span-6 lg:pl-8 lg:border-l lg:border-[color:var(--color-border)]">
-            <ul className="grid grid-cols-2 gap-x-6 gap-y-5">
-              <SignalItem
-                index="01"
-                label="Livraison"
-                value="2 à 4 semaines"
-              />
-              <SignalItem
-                index="02"
-                label="Jour J"
-                value="Présence contractuelle"
-              />
-              <SignalItem
-                index="03"
-                label="Sur-mesure"
-                value="Votre marque, votre code"
-              />
-              <SignalItem
-                index="04"
-                label="Référent"
-                value="Un interlocuteur unique"
-              />
-            </ul>
+          <div className="lg:col-span-5">
+            <HeroLiveMockup />
           </div>
         </motion.div>
+
+        {/* Signal items — full-width differentiation strip */}
+        <motion.ul
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.6, ease: [0.23, 1, 0.32, 1] }}
+          className="mt-14 sm:mt-20 grid grid-cols-2 md:grid-cols-4 gap-y-6 gap-x-8 pt-10 border-t border-[color:var(--color-border)]"
+        >
+          <SignalItem index="01" label="Livraison" value="2 à 4 semaines" />
+          <SignalItem
+            index="02"
+            label="Jour J"
+            value="Présence contractuelle"
+          />
+          <SignalItem
+            index="03"
+            label="Sur-mesure"
+            value="Votre marque, votre code"
+          />
+          <SignalItem
+            index="04"
+            label="Référent"
+            value="Un interlocuteur unique"
+          />
+        </motion.ul>
 
         {/* Scroll cue */}
         <motion.div
