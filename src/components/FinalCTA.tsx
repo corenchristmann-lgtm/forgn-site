@@ -1,7 +1,13 @@
 "use client";
 
 import { motion } from "motion/react";
-import { AVAILABILITY_LABEL, CALENDLY_URL, CONTACT_EMAIL } from "@/lib/constants";
+import Link from "next/link";
+import {
+  AVAILABILITY_LABEL,
+  BRIEF_URL,
+  CALENDLY_URL,
+  CONTACT_EMAIL,
+} from "@/lib/constants";
 
 interface FAQEntry {
   q: string;
@@ -111,9 +117,16 @@ export default function FinalCTA() {
                   Réserver 30 minutes
                   <span aria-hidden className="arrow-nudge">→</span>
                 </a>
+                <Link
+                  href={BRIEF_URL}
+                  className="inline-flex items-center gap-2 h-12 px-5 rounded-full text-white border border-white/30 bg-white/10 backdrop-blur font-medium text-[14.5px] hover:bg-white/20 transition-colors"
+                >
+                  Décrire mon projet
+                  <span aria-hidden>→</span>
+                </Link>
                 <a
                   href={`mailto:${CONTACT_EMAIL}`}
-                  className="inline-flex items-center gap-2 h-12 px-5 rounded-full text-white border border-white/30 bg-white/10 backdrop-blur font-medium text-[14.5px] hover:bg-white/20 transition-colors"
+                  className="inline-flex items-center gap-2 h-12 px-5 rounded-full text-white/90 font-medium text-[14.5px] hover:text-white transition-colors"
                 >
                   {CONTACT_EMAIL}
                 </a>

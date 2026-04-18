@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "motion/react";
-import { CALENDLY_URL } from "@/lib/constants";
+import { BRIEF_URL, CALENDLY_URL } from "@/lib/constants";
 import HeroLiveMockup from "./HeroLiveMockup";
 
 export default function Hero() {
@@ -112,11 +112,18 @@ export default function Hero() {
                 Réserver 30 minutes
                 <span aria-hidden className="arrow-nudge">→</span>
               </a>
-              <a href="#realisations" className="btn-outline group">
-                Voir les réalisations
-                <span aria-hidden className="arrow-nudge opacity-60">↓</span>
+              <a href={BRIEF_URL} className="btn-outline group">
+                Décrire mon projet
+                <span aria-hidden className="arrow-nudge opacity-60">→</span>
               </a>
             </div>
+            <a
+              href="#realisations"
+              className="mt-4 inline-flex items-center gap-1.5 text-[13.5px] text-[color:var(--color-muted-foreground)] hover:text-[color:var(--color-foreground)] transition-colors"
+            >
+              <span>Voir d&apos;abord les réalisations</span>
+              <span aria-hidden className="arrow-nudge opacity-60">↓</span>
+            </a>
           </div>
 
           <div className="lg:col-span-5">

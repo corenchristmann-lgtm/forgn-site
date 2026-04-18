@@ -601,6 +601,24 @@ section {
   border-radius: 4px;
 }
 
+/* Case study pages — lightweight prose */
+.prose-case p {
+  font-size: 16px;
+  line-height: 1.65;
+  margin-bottom: 1rem;
+  max-width: 62ch;
+}
+.prose-case p + p {
+  margin-top: 0.5rem;
+}
+
+.eyebrow-light {
+  color: rgba(255, 255, 255, 0.7);
+}
+.eyebrow-light::before {
+  background: rgba(255, 255, 255, 0.5);
+}
+
 /* Legal pages — prose editorial */
 .prose-legal {
   font-size: 15.5px;

@@ -1,9 +1,19 @@
 import type { MetadataRoute } from "next";
+import { listCaseStudySlugs } from "@/data/case-studies";
 
 const BASE_URL = "https://forgn.dev";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
+
+  const caseStudies: MetadataRoute.Sitemap = listCaseStudySlugs().map(
+    (slug) => ({
+      url: `${BASE_URL}/realisations/${slug}`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.85,
+    })
+  );
 
   return [
     {
@@ -54,5 +64,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "yearly",
       priority: 0.3,
     },
+    {
+      url: `${BASE_URL}/brief`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
+    ...caseStudies,
   ];
 }

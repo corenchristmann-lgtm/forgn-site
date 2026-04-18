@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef } from "react";
+import Link from "next/link";
 import { motion, useScroll, useTransform } from "motion/react";
 import { CONTACT_EMAIL } from "@/lib/constants";
 
@@ -9,7 +10,8 @@ interface Metric {
   label: string;
 }
 
-interface CaseStudy {
+interface CaseCard {
+  slug: string;
   tag: string;
   year: string;
   title: string;
@@ -17,11 +19,12 @@ interface CaseStudy {
   metrics: Metric[];
 }
 
-interface FeaturedCase extends CaseStudy {
+interface FeaturedCase extends CaseCard {
   lede: string;
 }
 
 const featured: FeaturedCase = {
+  slug: "vote-live-soiree-pitch",
   tag: "Vote live · Award cérémonie",
   year: "2026",
   title: "Une soirée pitch remportée sans un seul bug.",
@@ -37,8 +40,9 @@ const featured: FeaturedCase = {
   ],
 };
 
-const supporting: CaseStudy[] = [
+const supporting: CaseCard[] = [
   {
+    slug: "companion-journee-entrepreneuriale",
     tag: "Companion",
     year: "2026",
     title: "Une journée entrepreneuriale, dans la poche.",
@@ -51,6 +55,7 @@ const supporting: CaseStudy[] = [
     ],
   },
   {
+    slug: "gamification-award",
     tag: "Gamification",
     year: "2025",
     title: "Un award où le public investit, pas où le jury vote.",
@@ -63,6 +68,7 @@ const supporting: CaseStudy[] = [
     ],
   },
   {
+    slug: "matching-alumni",
     tag: "Matching",
     year: "2024",
     title: "Un programme d'alumni qui tient au-delà de trois mois.",
@@ -154,13 +160,13 @@ export default function Realisations() {
                 {featured.summary}
               </p>
 
-              <a
-                href={`mailto:${CONTACT_EMAIL}?subject=Case%20study%20d%C3%A9taill%C3%A9%20%E2%80%94%20Vote%20live`}
+              <Link
+                href={`/realisations/${featured.slug}`}
                 className="mt-10 inline-flex items-center gap-2 text-[14px] text-[color:var(--color-accent-soft)] font-medium hover:text-white transition-colors"
               >
-                <span>Case study détaillé sur demande</span>
+                <span>Lire le case study complet</span>
                 <span aria-hidden className="arrow-nudge">→</span>
-              </a>
+              </Link>
             </motion.div>
 
             {/* Right — metrics panel, mock screen illusion (parallax) */}
@@ -219,8 +225,8 @@ export default function Realisations() {
         {/* Supporting — 3 columns editorial cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
           {supporting.map((c, i) => (
-            <motion.article
-              key={c.tag}
+            <motion.div
+              key={c.slug}
               initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-60px" }}
@@ -229,7 +235,12 @@ export default function Realisations() {
                 delay: 0.1 + i * 0.06,
                 ease: [0.23, 1, 0.32, 1],
               }}
-              className="group relative overflow-hidden card p-7 flex flex-col min-h-[320px] hover:border-[color:var(--color-foreground)]/40"
+              className="relative"
+            >
+            <Link
+              href={`/realisations/${c.slug}`}
+              aria-label={`${c.title} — lire le case study`}
+              className="group block relative overflow-hidden card p-7 flex flex-col min-h-[320px] hover:border-[color:var(--color-foreground)]/40 transition-colors"
             >
               {/* Decorative case visual */}
               <CaseVisual tag={c.tag} />
@@ -263,7 +274,12 @@ export default function Realisations() {
                   </div>
                 ))}
               </div>
-            </motion.article>
+              <div className="relative mt-5 flex items-center gap-1.5 text-[13px] text-[color:var(--color-muted-foreground)] group-hover:text-[color:var(--color-accent-deep)] transition-colors">
+                Lire le case study
+                <span aria-hidden className="arrow-nudge">→</span>
+              </div>
+            </Link>
+            </motion.div>
           ))}
         </div>
       </div>
