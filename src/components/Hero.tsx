@@ -66,49 +66,6 @@ export default function Hero() {
             </span>
           </motion.h1>
 
-          {/* Floating callout — desktop only (mobile version below) */}
-          <motion.aside
-            initial={{ opacity: 0, y: 14, scale: 0.96 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            transition={{ duration: 0.6, delay: 0.45, ease: [0.23, 1, 0.32, 1] }}
-            className="hidden lg:block absolute top-8 right-0 w-[320px] p-5 card-raised"
-          >
-            <div className="flex items-start justify-between mb-4">
-              <span className="font-mono text-[10.5px] uppercase tracking-[0.12em] text-[color:var(--color-muted-foreground)]">
-                Depuis 2024
-              </span>
-              <span className="font-mono text-[10.5px] uppercase tracking-[0.12em] text-[color:var(--color-live)] flex items-center gap-1.5">
-                <span className="live-dot" />
-                Live now
-              </span>
-            </div>
-            <div className="space-y-3">
-              <div className="flex items-baseline justify-between border-b border-[color:var(--color-border)] pb-2.5">
-                <span className="text-[13px] text-[color:var(--color-muted-foreground)]">
-                  Applications livrées
-                </span>
-                <span className="font-display text-[22px] tabular text-[color:var(--color-foreground)]">
-                  12
-                </span>
-              </div>
-              <div className="flex items-baseline justify-between border-b border-[color:var(--color-border)] pb-2.5">
-                <span className="text-[13px] text-[color:var(--color-muted-foreground)]">
-                  Jours J présents
-                </span>
-                <span className="font-display text-[22px] tabular text-[color:var(--color-foreground)]">
-                  12/12
-                </span>
-              </div>
-              <div className="flex items-baseline justify-between">
-                <span className="text-[13px] text-[color:var(--color-muted-foreground)]">
-                  Bugs en production
-                </span>
-                <span className="font-display text-[22px] tabular text-[color:var(--color-accent)]">
-                  0
-                </span>
-              </div>
-            </div>
-          </motion.aside>
         </div>
 
         {/* ICP + Value proposition row */}
@@ -184,13 +141,6 @@ export default function Hero() {
                 value="Un interlocuteur unique"
               />
             </ul>
-
-            {/* Mobile + tablet-only metrics panel (floating card is desktop only) */}
-            <div className="mt-8 lg:hidden grid grid-cols-3 gap-4 p-5 rounded-2xl bg-[color:var(--color-muted)]/60 border border-[color:var(--color-border)]">
-              <MetricChip value="12" label="Apps livrées" />
-              <MetricChip value="12/12" label="Jours J présents" />
-              <MetricChip value="0" label="Bug en prod" accent />
-            </div>
           </div>
         </motion.div>
 
@@ -235,29 +185,3 @@ function SignalItem({
   );
 }
 
-function MetricChip({
-  value,
-  label,
-  accent = false,
-}: {
-  value: string;
-  label: string;
-  accent?: boolean;
-}) {
-  return (
-    <div className="flex flex-col gap-1">
-      <span
-        className={`font-display text-[22px] tabular leading-none ${
-          accent
-            ? "text-[color:var(--color-accent)]"
-            : "text-[color:var(--color-foreground)]"
-        }`}
-      >
-        {value}
-      </span>
-      <span className="text-[11px] text-[color:var(--color-muted-foreground)] leading-tight">
-        {label}
-      </span>
-    </div>
-  );
-}
