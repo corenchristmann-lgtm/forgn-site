@@ -11,26 +11,36 @@
   --font-sans: var(--font-inter), "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-jetbrains-mono), ui-monospace, SFMono-Regular, monospace;
 
-  /* Palette — warm paper, ember, ink */
-  --color-background: #faf8f4;
-  --color-background-deep: #f4f0e6;
-  --color-foreground: #0d0c0a;
-  --color-ink: #141210;
-  --color-muted: #f2eee5;
-  --color-muted-foreground: #4a443c;
-  --color-subtle: #ece7da;
-  --color-border: #e4dfd5;
-  --color-border-strong: #d1cbbc;
+  /* Forge — dark default palette (scene nocturne) */
+  --color-background: #0a0a0b;       /* forge-void */
+  --color-background-deep: #050506;
+  --color-foreground: #f5f1ea;       /* forge-bone */
+  --color-ink: #ffffff;
+  --color-muted: #1a1a1d;            /* forge-steel */
+  --color-muted-foreground: #9a9a9e; /* forge-mist */
+  --color-subtle: #2a2a2e;
+  --color-border: #2a2a2e;           /* forge-ash */
+  --color-border-strong: #3a3a3e;
 
-  /* Signature — ember gradient */
-  --color-accent: #d65d2e;
-  --color-accent-soft: #f2a07a;
-  --color-accent-deep: #8f3612;
-  --color-accent-glow: color-mix(in oklab, #d65d2e 35%, transparent);
+  /* Signature — ember/copper/gold heat */
+  --color-accent: #ff6b35;           /* forge-ember */
+  --color-accent-soft: #ffa076;
+  --color-accent-deep: #cc4b1c;
+  --color-accent-glow: color-mix(in oklab, #ff6b35 45%, transparent);
 
   /* Live status */
-  --color-live: #5c8a3f;
-  --color-live-glow: color-mix(in oklab, #5c8a3f 40%, transparent);
+  --color-live: #6fa64d;
+  --color-live-glow: color-mix(in oklab, #6fa64d 50%, transparent);
+
+  /* Forge-specific tokens (usage direct dans composants signature) */
+  --forge-void: #0a0a0b;
+  --forge-steel: #1a1a1d;
+  --forge-ash: #2a2a2e;
+  --forge-ember: #ff6b35;
+  --forge-copper: #cd7f32;
+  --forge-gold: #f4c430;
+  --forge-bone: #f5f1ea;
+  --forge-mist: #9a9a9e;
 
   /* Radii */
   --radius-sm: 6px;
@@ -62,42 +72,41 @@
   --shadow-inset: inset 0 1px 0 rgba(255, 250, 240, 0.6);
 }
 
-/* Dark mode palette — same ember accent, flipped paper */
-.dark {
-  --color-background: #0f0d0a;
-  --color-background-deep: #070604;
-  --color-foreground: #f5f1ea;
-  --color-ink: #ffffff;
-  --color-muted: #1a1612;
-  --color-muted-foreground: #b5ad9e;
-  --color-subtle: #24201a;
-  --color-border: #2d281f;
-  --color-border-strong: #3d3628;
-
-  --color-accent: #e67441;
-  --color-accent-soft: #f2a07a;
-  --color-accent-deep: #b85a2e;
-  --color-accent-glow: color-mix(in oklab, #e67441 45%, transparent);
-
-  --color-live: #6fa64d;
-  --color-live-glow: color-mix(in oklab, #6fa64d 50%, transparent);
-
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
-  --shadow-md:
-    0 2px 4px rgba(0, 0, 0, 0.35),
-    0 8px 20px -6px rgba(0, 0, 0, 0.45);
-  --shadow-lg:
-    0 4px 10px -2px rgba(0, 0, 0, 0.45),
-    0 24px 40px -12px rgba(0, 0, 0, 0.55);
-  --shadow-xl:
-    0 10px 20px -6px rgba(0, 0, 0, 0.55),
-    0 40px 80px -20px rgba(0, 0, 0, 0.65);
-  --shadow-ember:
-    0 14px 44px -10px color-mix(in oklab, #e67441 45%, transparent),
-    0 4px 12px -4px color-mix(in oklab, #e67441 30%, transparent);
-  --shadow-inset: inset 0 1px 0 rgba(255, 250, 240, 0.08);
-
+/* Dark is now the default (defined in @theme inline above).
+ * Light mode is opt-in via .light class. */
+:root {
   color-scheme: dark;
+}
+
+.light {
+  --color-background: #faf8f4;
+  --color-background-deep: #f4f0e6;
+  --color-foreground: #0d0c0a;
+  --color-ink: #141210;
+  --color-muted: #f2eee5;
+  --color-muted-foreground: #4a443c;
+  --color-subtle: #ece7da;
+  --color-border: #e4dfd5;
+  --color-border-strong: #d1cbbc;
+
+  --color-accent: #d65d2e;
+  --color-accent-soft: #f2a07a;
+  --color-accent-deep: #8f3612;
+  --color-accent-glow: color-mix(in oklab, #d65d2e 35%, transparent);
+
+  color-scheme: light;
+}
+
+/* Custom cursor — hide native cursor when active */
+.cursor-none,
+.cursor-none * {
+  cursor: none !important;
+}
+.custom-cursor {
+  border: 1.5px solid var(--forge-ember);
+  border-radius: 9999px;
+  mix-blend-mode: difference;
+  box-shadow: 0 0 12px color-mix(in oklab, var(--forge-ember) 40%, transparent);
 }
 
 /* ================================================================= */

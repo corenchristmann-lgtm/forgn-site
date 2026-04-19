@@ -7,13 +7,13 @@ type Theme = "light" | "dark";
 const STORAGE_KEY = "forgn-theme";
 
 function readStoredTheme(): Theme {
-  if (typeof document === "undefined") return "light";
-  return document.documentElement.classList.contains("dark") ? "dark" : "light";
+  if (typeof document === "undefined") return "dark";
+  return document.documentElement.classList.contains("light") ? "light" : "dark";
 }
 
 export default function ThemeToggle() {
   const [mounted, setMounted] = useState(false);
-  const [theme, setTheme] = useState<Theme>("light");
+  const [theme, setTheme] = useState<Theme>("dark");
 
   useEffect(() => {
     setMounted(true);
@@ -21,9 +21,9 @@ export default function ThemeToggle() {
   }, []);
 
   const toggle = () => {
-    const next: Theme = theme === "dark" ? "light" : "dark";
+    const next: Theme = theme === "light" ? "dark" : "light";
     const root = document.documentElement;
-    root.classList.toggle("dark", next === "dark");
+    root.classList.toggle("light", next === "light");
     try {
       window.localStorage.setItem(STORAGE_KEY, next);
     } catch {
@@ -32,21 +32,21 @@ export default function ThemeToggle() {
     setTheme(next);
   };
 
-  const isDark = theme === "dark";
+  const isLight = theme === "light";
 
   return (
     <button
       type="button"
       onClick={toggle}
-      aria-label={isDark ? "Passer en mode clair" : "Passer en mode sombre"}
-      aria-pressed={isDark}
+      aria-label={isLight ? "Passer en mode sombre" : "Passer en mode clair"}
+      aria-pressed={isLight}
       className="inline-flex items-center justify-center w-9 h-9 rounded-full text-[color:var(--color-muted-foreground)] hover:text-[color:var(--color-foreground)] hover:bg-[color:var(--color-subtle)] transition-colors"
       suppressHydrationWarning
     >
       <span className="sr-only">
-        {isDark ? "Mode sombre activé" : "Mode clair activé"}
+        {isLight ? "Mode clair activé" : "Mode sombre activé"}
       </span>
-      {/* Sun / Moon icons cross-fade */}
+      {/* Sun / Moon icons cross-fade (dark is default, show sun to invite switching to light) */}
       <svg
         width="16"
         height="16"
@@ -55,7 +55,7 @@ export default function ThemeToggle() {
         className="relative"
         aria-hidden
       >
-        {mounted && isDark ? (
+        {mounted && isLight ? (
           <path
             d="M15.5 12.5A6 6 0 0 1 7.5 4.5a.75.75 0 0 0-.98-.98 7.5 7.5 0 1 0 9.96 9.96.75.75 0 0 0-.98-.98Z"
             fill="currentColor"

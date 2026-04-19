@@ -2,6 +2,9 @@ import type { Metadata } from "next";
 import { Fraunces, Inter, JetBrains_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import LenisProvider from "@/components/providers/LenisProvider";
+import CustomCursor from "@/components/providers/CustomCursor";
+import NoiseOverlay from "@/components/NoiseOverlay";
 import "./globals.css";
 
 const fraunces = Fraunces({
@@ -164,7 +167,7 @@ export default function RootLayout({
       <body className="min-h-screen antialiased">
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){try{var s=localStorage.getItem('forgn-theme');if(s==='dark'||(!s&&window.matchMedia('(prefers-color-scheme: dark)').matches)){document.documentElement.classList.add('dark')}}catch(e){}})();`,
+            __html: `(function(){try{var s=localStorage.getItem('forgn-theme');if(s==='light'){document.documentElement.classList.add('light')}}catch(e){}})();`,
           }}
         />
         {process.env.NEXT_PUBLIC_CLARITY_ID ? (
@@ -177,6 +180,8 @@ export default function RootLayout({
         <a href="#main" className="skip-link">
           Aller au contenu principal
         </a>
+        <NoiseOverlay />
+        <CustomCursor />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationLd) }}
@@ -185,7 +190,7 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessLd) }}
         />
-        {children}
+        <LenisProvider>{children}</LenisProvider>
         <Analytics />
         <SpeedInsights />
       </body>
