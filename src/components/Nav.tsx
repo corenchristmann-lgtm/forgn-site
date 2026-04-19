@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { motion } from "motion/react";
 import { AVAILABILITY_LABEL, CALENDLY_URL } from "@/lib/constants";
 import ThemeToggle from "./ThemeToggle";
 
@@ -19,7 +20,7 @@ export default function Nav() {
   const toggleRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 8);
+    const onScroll = () => setScrolled(window.scrollY > 80);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -68,10 +69,10 @@ export default function Nav() {
       <div className="flex justify-center px-3 pt-3 sm:pt-4">
         <nav
           aria-label="Navigation principale"
-          className={`flex items-center gap-1 sm:gap-4 h-14 pl-3 pr-2 rounded-full transition-all duration-300 ${
+          className={`flex items-center gap-1 sm:gap-4 h-14 pl-3 pr-2 rounded-full transition-all duration-300 border ${
             scrolled
-              ? "glass shadow-[0_1px_3px_rgba(33,20,6,0.05),0_12px_32px_-8px_rgba(33,20,6,0.12)]"
-              : "bg-[color:var(--color-background)]/40 backdrop-blur-md border border-transparent"
+              ? "bg-[color:var(--forge-void)]/75 backdrop-blur-xl border-[color:var(--forge-ash)] shadow-[0_8px_32px_-8px_rgba(0,0,0,0.6)]"
+              : "bg-[color:var(--forge-void)]/30 backdrop-blur-md border-transparent"
           }`}
         >
           {/* Wordmark */}
@@ -82,14 +83,16 @@ export default function Nav() {
           >
             <span
               aria-hidden
-              className="relative inline-flex h-7 w-7 items-center justify-center rounded-lg bg-[color:var(--color-foreground)] shadow-[0_1px_2px_rgba(33,20,6,0.12),inset_0_1px_0_rgba(255,250,240,0.15)]"
+              className="relative inline-flex h-7 w-7 items-center justify-center rounded-lg bg-[color:var(--forge-bone)] shadow-[inset_0_1px_0_rgba(255,250,240,0.2)] transition-shadow duration-300 group-hover:shadow-[0_0_16px_var(--forge-ember),inset_0_1px_0_rgba(255,250,240,0.2)]"
             >
-              <span className="font-display text-[color:var(--color-background)] text-[13px] font-semibold leading-none -mt-px">
+              <span className="font-display text-[color:var(--forge-void)] text-[13px] font-semibold leading-none -mt-px">
                 F
               </span>
-              <span className="absolute -top-0.5 -right-0.5 h-2 w-2 rounded-full bg-[color:var(--color-accent)] shadow-[0_0_8px_var(--color-accent-glow)]" />
+              <span
+                className="absolute -top-0.5 -right-0.5 h-2 w-2 rounded-full bg-[color:var(--forge-ember)] shadow-[0_0_10px_var(--forge-ember)] transition-all duration-300 group-hover:h-2.5 group-hover:w-2.5 group-hover:shadow-[0_0_18px_var(--forge-ember),0_0_4px_var(--forge-gold)]"
+              />
             </span>
-            <span className="text-[15.5px] font-medium tracking-tight">
+            <span className="text-[15.5px] font-medium tracking-tight text-[color:var(--forge-bone)]">
               Forgn
             </span>
           </a>
@@ -97,32 +100,44 @@ export default function Nav() {
           {/* Divider */}
           <span aria-hidden className="hidden md:block h-5 w-px bg-[color:var(--color-border)]" />
 
-          {/* Links */}
+          {/* Links with animated layoutId underline */}
           <ul className="hidden md:flex items-center gap-0.5" role="list">
             {LINKS.map((l) => {
               const isActive = activeId === l.href.replace("#", "");
               return (
-                <li key={l.href}>
+                <li key={l.href} className="relative">
                   <a
                     href={l.href}
                     aria-current={isActive ? "location" : undefined}
-                    className={`px-3.5 h-9 inline-flex items-center text-[13.5px] rounded-full transition-all duration-200 ${
+                    className={`relative z-10 px-3.5 h-9 inline-flex items-center text-[13.5px] rounded-full transition-colors duration-200 ${
                       isActive
-                        ? "text-[color:var(--color-foreground)] bg-[color:var(--color-subtle)]"
-                        : "text-[color:var(--color-muted-foreground)] hover:text-[color:var(--color-foreground)] hover:bg-[color:var(--color-subtle)]"
+                        ? "text-[color:var(--forge-bone)]"
+                        : "text-[color:var(--forge-mist)] hover:text-[color:var(--forge-bone)]"
                     }`}
                   >
                     {l.label}
                   </a>
+                  {isActive && (
+                    <motion.span
+                      layoutId="nav-active-pill"
+                      aria-hidden
+                      className="absolute inset-0 rounded-full bg-[color:var(--forge-steel)] border border-[color:var(--forge-ash)]"
+                      transition={{
+                        type: "spring",
+                        stiffness: 380,
+                        damping: 32,
+                      }}
+                    />
+                  )}
                 </li>
               );
             })}
           </ul>
 
           {/* Availability status */}
-          <div className="hidden lg:flex items-center gap-2 pl-3 pr-2 h-9 rounded-full bg-[color:var(--color-muted)]/60 border border-[color:var(--color-border)]">
+          <div className="hidden lg:flex items-center gap-2 pl-3 pr-2 h-9 rounded-full bg-[color:var(--forge-steel)]/80 border border-[color:var(--forge-ash)]">
             <span className="live-dot" />
-            <span className="font-mono text-[10.5px] uppercase tracking-[0.1em] text-[color:var(--color-foreground)]">
+            <span className="font-mono text-[10.5px] uppercase tracking-[0.1em] text-[color:var(--forge-bone)]">
               {AVAILABILITY_LABEL}
             </span>
           </div>
@@ -132,18 +147,17 @@ export default function Nav() {
             <ThemeToggle />
           </div>
 
-          {/* CTA */}
+          {/* CTA — ember primary */}
           <a
             href={CALENDLY_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="group hidden md:inline-flex items-center gap-1.5 h-10 pl-4 pr-3.5 rounded-full bg-[color:var(--color-foreground)] text-[color:var(--color-background)] text-[13.5px] font-medium hover:opacity-95 transition-opacity shadow-[0_2px_6px_rgba(33,20,6,0.2),inset_0_1px_0_rgba(255,250,240,0.1)] active:scale-[0.97]"
-            style={{ transition: "background 200ms, transform 140ms cubic-bezier(0.23,1,0.32,1), box-shadow 220ms" }}
+            className="group hidden md:inline-flex items-center gap-1.5 h-10 pl-4 pr-3.5 rounded-full bg-[color:var(--forge-ember)] text-[color:var(--forge-void)] text-[13.5px] font-medium hover:bg-[color:var(--forge-gold)] transition-colors shadow-[0_2px_10px_-2px_rgba(255,107,53,0.5),inset_0_1px_0_rgba(255,250,240,0.2)] active:scale-[0.97]"
           >
             Vérifier les disponibilités
             <span
               aria-hidden
-              className="arrow-nudge text-[color:var(--color-accent-soft)]"
+              className="arrow-nudge text-[color:var(--forge-void)]"
             >
               →
             </span>
@@ -154,19 +168,19 @@ export default function Nav() {
             ref={toggleRef}
             type="button"
             onClick={() => setOpen(!open)}
-            className="md:hidden inline-flex items-center justify-center w-10 h-10 rounded-full hover:bg-[color:var(--color-subtle)] transition-colors"
+            className="md:hidden inline-flex items-center justify-center w-10 h-10 rounded-full hover:bg-[color:var(--forge-steel)] transition-colors text-[color:var(--forge-bone)]"
             aria-label={open ? "Fermer le menu" : "Ouvrir le menu"}
             aria-expanded={open}
             aria-controls={MOBILE_MENU_ID}
           >
             <span className="flex flex-col gap-1.5">
               <span
-                className={`block h-px w-5 bg-[color:var(--color-foreground)] transition-transform duration-200 ease-out ${
+                className={`block h-px w-5 bg-[color:var(--forge-bone)] transition-transform duration-200 ease-out ${
                   open ? "translate-y-[3.5px] rotate-45" : ""
                 }`}
               />
               <span
-                className={`block h-px w-5 bg-[color:var(--color-foreground)] transition-transform duration-200 ease-out ${
+                className={`block h-px w-5 bg-[color:var(--forge-bone)] transition-transform duration-200 ease-out ${
                   open ? "-translate-y-[3.5px] -rotate-45" : ""
                 }`}
               />
@@ -182,7 +196,7 @@ export default function Nav() {
           role="dialog"
           aria-modal="false"
           aria-label="Menu principal"
-          className="md:hidden mx-3 mt-2 rounded-3xl glass p-3 shadow-[0_20px_48px_-12px_rgba(33,20,6,0.2)]"
+          className="md:hidden mx-3 mt-2 rounded-3xl bg-[color:var(--forge-void)]/90 backdrop-blur-xl border border-[color:var(--forge-ash)] p-3 shadow-[0_20px_48px_-12px_rgba(0,0,0,0.6)]"
         >
           <ul className="flex flex-col" role="list">
             {LINKS.map((l) => (
@@ -190,16 +204,16 @@ export default function Nav() {
                 <a
                   href={l.href}
                   onClick={() => setOpen(false)}
-                  className="block px-4 py-3.5 text-[16px] font-medium text-[color:var(--color-foreground)] hover:bg-[color:var(--color-subtle)] rounded-xl transition-colors"
+                  className="block px-4 py-3.5 text-[16px] font-medium text-[color:var(--forge-bone)] hover:bg-[color:var(--forge-steel)] rounded-xl transition-colors"
                 >
                   {l.label}
                 </a>
               </li>
             ))}
           </ul>
-          <div className="mt-2 flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[color:var(--color-muted)]">
+          <div className="mt-2 flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[color:var(--forge-steel)]">
             <span className="live-dot" />
-            <span className="font-mono text-[11px] uppercase tracking-[0.1em] text-[color:var(--color-foreground)]">
+            <span className="font-mono text-[11px] uppercase tracking-[0.1em] text-[color:var(--forge-bone)]">
               {AVAILABILITY_LABEL}
             </span>
           </div>
@@ -207,10 +221,10 @@ export default function Nav() {
             href={CALENDLY_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-2 flex items-center justify-center gap-1.5 h-12 rounded-full bg-[color:var(--color-foreground)] text-[color:var(--color-background)] text-[14.5px] font-medium"
+            className="mt-2 flex items-center justify-center gap-1.5 h-12 rounded-full bg-[color:var(--forge-ember)] text-[color:var(--forge-void)] text-[14.5px] font-medium shadow-[0_4px_16px_-4px_rgba(255,107,53,0.5)]"
           >
             Vérifier les disponibilités
-            <span aria-hidden className="text-[color:var(--color-accent-soft)]">→</span>
+            <span aria-hidden>→</span>
           </a>
         </div>
       )}

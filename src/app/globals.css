@@ -109,6 +109,91 @@
   box-shadow: 0 0 12px color-mix(in oklab, var(--forge-ember) 40%, transparent);
 }
 
+/* Headline italic word — metal heat gradient shimmer */
+.metal-italic {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 380;
+  background: linear-gradient(
+    90deg,
+    var(--forge-ember) 0%,
+    var(--forge-gold) 45%,
+    var(--forge-copper) 60%,
+    var(--forge-ember) 100%
+  );
+  background-size: 220% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: forge-shimmer 7s ease-in-out infinite;
+  filter: drop-shadow(0 0 18px color-mix(in oklab, var(--forge-ember) 35%, transparent));
+}
+
+@keyframes forge-shimmer {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .metal-italic {
+    animation: none;
+  }
+}
+
+/* Dark-default patches for surface contrast components */
+:root:not(.light) .ink-block {
+  background: var(--forge-steel);
+  color: var(--forge-bone);
+  border: 1px solid var(--forge-ash);
+  box-shadow:
+    inset 0 0 80px rgba(255, 107, 53, 0.04),
+    0 40px 80px -20px rgba(0, 0, 0, 0.65);
+}
+
+:root:not(.light) .card,
+:root:not(.light) .card-raised {
+  background: var(--forge-steel);
+  border: 1px solid var(--forge-ash);
+}
+
+:root:not(.light) .chip {
+  background: var(--forge-steel);
+  border: 1px solid var(--forge-ash);
+  color: var(--forge-bone);
+}
+
+:root:not(.light) .chip-ember {
+  background: color-mix(in oklab, var(--forge-ember) 15%, transparent);
+  border: 1px solid color-mix(in oklab, var(--forge-ember) 40%, transparent);
+  color: var(--forge-ember);
+}
+
+:root:not(.light) body {
+  background: var(--forge-void);
+}
+
+/* Custom scrollbar — forge */
+:root:not(.light) ::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+:root:not(.light) ::-webkit-scrollbar-track {
+  background: var(--forge-void);
+}
+:root:not(.light) ::-webkit-scrollbar-thumb {
+  background: var(--forge-ash);
+  border: 3px solid var(--forge-void);
+  border-radius: 999px;
+}
+:root:not(.light) ::-webkit-scrollbar-thumb:hover {
+  background: var(--forge-ember);
+}
+
 /* ================================================================= */
 /*  Base                                                                */
 /* ================================================================= */

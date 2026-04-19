@@ -22,10 +22,15 @@ export default function ProofBand() {
   return (
     <section
       aria-label="Événements livrés"
-      className="relative border-y border-[color:var(--color-border)] bg-[color:var(--color-muted)]/60 py-6 overflow-hidden"
+      className="relative border-y border-[color:var(--forge-ash)] bg-[color:var(--forge-steel)]/60 py-6 overflow-hidden"
     >
+      {/* Subtle ember gradient line at top */}
+      <div
+        aria-hidden
+        className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[color:var(--forge-ember)]/40 to-transparent pointer-events-none"
+      />
       <div className="mx-auto max-w-[1240px] flex items-center gap-8">
-        <span className="shrink-0 font-mono text-[10.5px] uppercase tracking-[0.14em] text-[color:var(--color-muted-foreground)] pl-2">
+        <span className="shrink-0 font-mono text-[10.5px] uppercase tracking-[0.14em] text-[color:var(--forge-mist)] pl-2">
           En production —
         </span>
 
@@ -34,16 +39,19 @@ export default function ProofBand() {
             {track.map((item, i) => (
               <div
                 key={`${item.type}-${i}`}
-                className="flex items-center gap-4 shrink-0"
+                className="flex items-center gap-5 shrink-0"
               >
-                <span className="h-1.5 w-1.5 rounded-full bg-[color:var(--color-accent)]" />
-                <span className="font-display text-[15px] text-[color:var(--color-foreground)] tracking-tight">
+                <span
+                  aria-hidden
+                  className="inline-block h-2 w-2 rotate-45 bg-[color:var(--forge-ember)] shadow-[0_0_8px_var(--forge-ember)]"
+                />
+                <span className="font-display text-[15px] text-[color:var(--forge-bone)] tracking-tight">
                   {item.type}
                 </span>
-                <span className="text-[13.5px] text-[color:var(--color-muted-foreground)]">
+                <span className="text-[13.5px] text-[color:var(--forge-mist)]">
                   {item.metric}
                 </span>
-                <span className="font-mono text-[10.5px] uppercase tracking-[0.1em] text-[color:var(--color-muted-foreground)] tabular">
+                <span className="font-mono text-[10.5px] uppercase tracking-[0.1em] text-[color:var(--forge-mist)] tabular">
                   {item.year}
                 </span>
               </div>
