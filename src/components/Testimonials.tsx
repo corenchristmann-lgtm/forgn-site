@@ -69,26 +69,26 @@ export default function Testimonials() {
                 delay: 0.1 + i * 0.08,
                 ease: [0.23, 1, 0.32, 1],
               }}
-              className="relative p-7 md:p-8 rounded-2xl bg-[color:var(--color-background)] border border-[color:var(--color-border)] shadow-[var(--shadow-sm)] flex flex-col"
+              className="relative overflow-hidden p-7 md:p-8 rounded-2xl bg-[color:var(--forge-steel)] border border-[color:var(--forge-ash)] flex flex-col"
             >
               <span
                 aria-hidden
-                className="font-display text-[72px] leading-none text-[color:var(--color-accent)]/30 absolute top-4 left-6 select-none"
+                className="font-display font-semibold italic absolute -top-8 -left-3 leading-none text-[200px] sm:text-[220px] text-[color:var(--forge-ember)]/25 select-none pointer-events-none"
               >
                 &ldquo;
               </span>
-              <blockquote className="relative pt-6 text-[15px] sm:text-[15.5px] leading-[1.6] text-[color:var(--color-foreground)] flex-1">
+              <blockquote className="relative z-[1] pt-16 text-[15px] sm:text-[15.5px] leading-[1.65] text-[color:var(--forge-bone)] flex-1">
                 {t.quote}
               </blockquote>
-              <figcaption className="mt-6 pt-5 border-t border-[color:var(--color-border)]">
-                <div className="text-[13.5px] font-medium text-[color:var(--color-foreground)]">
+              <figcaption className="relative z-[1] mt-6 pt-5 border-t border-[color:var(--forge-ash)]">
+                <div className="text-[13.5px] font-medium text-[color:var(--forge-bone)]">
                   {t.author}
                 </div>
                 <div className="mt-1 flex items-center justify-between gap-2">
-                  <span className="text-[12px] text-[color:var(--color-muted-foreground)]">
+                  <span className="text-[12px] text-[color:var(--forge-mist)]">
                     {t.context}
                   </span>
-                  <span className="font-mono text-[10.5px] uppercase tracking-[0.1em] text-[color:var(--color-muted-foreground)] tabular">
+                  <span className="font-mono text-[10.5px] uppercase tracking-[0.1em] text-[color:var(--forge-mist)] tabular">
                     {t.year}
                   </span>
                 </div>

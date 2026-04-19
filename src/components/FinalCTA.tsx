@@ -54,6 +54,15 @@ const faqLd = {
   })),
 };
 
+// Deterministic particle seeds (18 particles) — avoid hydration mismatch
+const PARTICLES = Array.from({ length: 18 }).map((_, i) => ({
+  left: (i * 53 + 7) % 100,
+  delay: ((i * 0.37) % 6).toFixed(2),
+  duration: (7 + (i % 5)).toFixed(1),
+  drift: i % 2 === 0 ? 18 : -14,
+  size: i % 3 === 0 ? 3 : 2,
+}));
+
 export default function FinalCTA() {
   return (
     <section id="contact" className="relative py-28 sm:py-36">
@@ -61,7 +70,7 @@ export default function FinalCTA() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }}
       />
-      <div className="mx-auto max-w-[1240px]">
+      <div className="mx-auto max-w-[1240px] px-4 sm:px-6">
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -69,18 +78,49 @@ export default function FinalCTA() {
           transition={{ duration: 0.7, ease: [0.23, 1, 0.32, 1] }}
           className="relative ember-block p-10 sm:p-16 lg:p-20 overflow-hidden"
         >
-          {/* Grain overlay */}
-          <div className="absolute inset-0 bg-grain opacity-50 pointer-events-none" aria-hidden />
+          {/* Grain */}
+          <div
+            className="absolute inset-0 bg-grain opacity-45 pointer-events-none"
+            aria-hidden
+          />
 
-          {/* Orb */}
+          {/* Pulsing bottom glow — base de forge */}
           <div
             aria-hidden
-            className="absolute -top-40 -right-20 h-[480px] w-[480px] rounded-full bg-white/20 blur-3xl pointer-events-none"
+            className="forge-base-glow absolute -bottom-40 left-1/2 -translate-x-1/2 h-[440px] w-[90%] rounded-full pointer-events-none"
+          />
+
+          {/* Orbs */}
+          <div
+            aria-hidden
+            className="absolute -top-40 -right-20 h-[480px] w-[480px] rounded-full bg-white/15 blur-3xl pointer-events-none"
           />
           <div
             aria-hidden
-            className="absolute -bottom-40 -left-20 h-[380px] w-[380px] rounded-full bg-[color:var(--color-accent-deep)] opacity-50 blur-3xl pointer-events-none"
+            className="absolute -bottom-48 -left-20 h-[380px] w-[380px] rounded-full bg-[color:var(--color-accent-deep)] opacity-50 blur-3xl pointer-events-none"
           />
+
+          {/* Ember particles rising */}
+          <div
+            aria-hidden
+            className="absolute inset-0 overflow-hidden pointer-events-none"
+          >
+            {PARTICLES.map((p, i) => (
+              <span
+                key={i}
+                className="forge-particle"
+                style={{
+                  left: `${p.left}%`,
+                  width: `${p.size}px`,
+                  height: `${p.size}px`,
+                  animationDelay: `${p.delay}s`,
+                  animationDuration: `${p.duration}s`,
+                  // CSS var for horizontal drift
+                  ["--drift" as string]: `${p.drift}px`,
+                }}
+              />
+            ))}
+          </div>
 
           <div className="relative grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-end">
             <div className="lg:col-span-7">
@@ -94,7 +134,9 @@ export default function FinalCTA() {
               <h2 className="display text-[clamp(2.2rem,7vw,5.5rem)] text-white max-w-[14ch] leading-[0.98]">
                 Votre événement a une date.
                 <br />
-                <span className="display-italic text-white/70">On en parle ?</span>
+                <span className="display-italic text-white/75">
+                  On en parle ?
+                </span>
               </h2>
 
               <p className="mt-8 text-[18px] leading-relaxed text-white/85 max-w-[54ch]">
@@ -108,14 +150,16 @@ export default function FinalCTA() {
                   href={CALENDLY_URL}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group inline-flex items-center gap-2 h-12 pl-5 pr-4 rounded-full bg-white text-[color:var(--color-accent-deep)] font-medium text-[14.5px] shadow-[0_10px_30px_-8px_rgba(0,0,0,0.3),inset_0_1px_0_rgba(255,255,255,0.6)] hover:shadow-[0_14px_40px_-8px_rgba(0,0,0,0.4)] active:scale-[0.97]"
+                  className="group inline-flex items-center gap-2 h-12 pl-5 pr-4 rounded-full bg-white text-[color:var(--forge-void)] font-medium text-[14.5px] shadow-[0_10px_30px_-8px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.6)] hover:shadow-[0_14px_40px_-8px_rgba(0,0,0,0.5)] active:scale-[0.97]"
                   style={{
                     transition:
                       "transform 160ms cubic-bezier(0.23,1,0.32,1), box-shadow 220ms cubic-bezier(0.23,1,0.32,1)",
                   }}
                 >
                   Réserver 30 minutes
-                  <span aria-hidden className="arrow-nudge">→</span>
+                  <span aria-hidden className="arrow-nudge">
+                    →
+                  </span>
                 </a>
                 <Link
                   href={BRIEF_URL}
@@ -133,7 +177,6 @@ export default function FinalCTA() {
               </div>
             </div>
 
-            {/* Right — answers */}
             <div className="lg:col-span-5">
               <ul className="space-y-5 lg:pl-10 lg:border-l lg:border-white/20">
                 {FAQ_ENTRIES.map((entry) => (
@@ -157,7 +200,7 @@ function FAQItem({ q, a }: { q: string; a: string }) {
           {q}
         </span>
       </div>
-      <p className="pl-[18px] text-[14px] text-white/75 leading-relaxed">{a}</p>
+      <p className="pl-[18px] text-[14px] text-white/80 leading-relaxed">{a}</p>
     </li>
   );
 }

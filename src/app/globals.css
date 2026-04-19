@@ -177,6 +177,152 @@
   background: var(--forge-void);
 }
 
+/* Ember particles rising (FinalCTA) */
+.forge-particle {
+  position: absolute;
+  bottom: -8px;
+  border-radius: 50%;
+  background: var(--forge-gold);
+  box-shadow: 0 0 6px var(--forge-gold), 0 0 12px var(--forge-ember);
+  opacity: 0;
+  animation: forge-rise linear infinite;
+  pointer-events: none;
+}
+
+@keyframes forge-rise {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 0;
+  }
+  8% {
+    opacity: 0.9;
+  }
+  80% {
+    opacity: 0.7;
+  }
+  100% {
+    transform: translate3d(var(--drift, 0px), -520px, 0) scale(0.2);
+    opacity: 0;
+  }
+}
+
+/* Pulsing bottom glow (forge base) */
+.forge-base-glow {
+  background: radial-gradient(
+    ellipse at center,
+    color-mix(in oklab, var(--forge-ember) 55%, transparent) 0%,
+    color-mix(in oklab, var(--forge-ember) 25%, transparent) 30%,
+    transparent 70%
+  );
+  filter: blur(60px);
+  animation: forge-pulse 4.5s ease-in-out infinite;
+}
+
+@keyframes forge-pulse {
+  0%,
+  100% {
+    opacity: 0.75;
+    transform: translateX(-50%) scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: translateX(-50%) scale(1.06);
+  }
+}
+
+/* Footer link — underline drawn on hover */
+.footer-link {
+  position: relative;
+  color: var(--forge-bone);
+  transition: color 200ms var(--ease-out-strong);
+}
+.footer-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  height: 1px;
+  width: 100%;
+  background: var(--forge-ember);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 300ms var(--ease-out-strong);
+}
+.footer-link:hover {
+  color: var(--forge-ember);
+}
+.footer-link:hover::after {
+  transform: scaleX(1);
+}
+
+/* Forge logo sparks (Footer) — 3 ember dots that fire on hover */
+.forge-logo-badge .forge-spark {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--forge-gold);
+  box-shadow: 0 0 6px var(--forge-gold);
+  opacity: 0;
+  pointer-events: none;
+}
+.forge-logo-badge:hover .forge-spark-1 {
+  animation: forge-spark-fly-1 900ms ease-out forwards;
+}
+.forge-logo-badge:hover .forge-spark-2 {
+  animation: forge-spark-fly-2 900ms ease-out 80ms forwards;
+}
+.forge-logo-badge:hover .forge-spark-3 {
+  animation: forge-spark-fly-3 900ms ease-out 160ms forwards;
+}
+
+@keyframes forge-spark-fly-1 {
+  0% {
+    top: 20%;
+    right: 20%;
+    opacity: 1;
+  }
+  100% {
+    top: -40%;
+    right: -40%;
+    opacity: 0;
+  }
+}
+@keyframes forge-spark-fly-2 {
+  0% {
+    top: 15%;
+    right: 15%;
+    opacity: 1;
+  }
+  100% {
+    top: -60%;
+    right: 30%;
+    opacity: 0;
+  }
+}
+@keyframes forge-spark-fly-3 {
+  0% {
+    top: 25%;
+    right: 25%;
+    opacity: 1;
+  }
+  100% {
+    top: -30%;
+    right: 80%;
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .forge-particle,
+  .forge-base-glow,
+  .forge-logo-badge:hover .forge-spark-1,
+  .forge-logo-badge:hover .forge-spark-2,
+  .forge-logo-badge:hover .forge-spark-3 {
+    animation: none !important;
+  }
+}
+
 /* Custom scrollbar — forge */
 :root:not(.light) ::-webkit-scrollbar {
   width: 12px;
